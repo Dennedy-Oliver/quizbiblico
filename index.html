@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Bíblico</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif;
+            text-align: center; 
+            background: linear-gradient(120deg, #4a90e2, #145da0);
+            color: white;
+            padding: 20px;
+        }
+        .container { 
+            max-width: 500px; 
+            margin: auto; 
+            background: rgba(255, 255, 255, 0.15); 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); 
+        }
+        .question { font-size: 22px; margin-bottom: 20px; }
+        .btn { 
+            display: block; 
+            width: 100%; 
+            padding: 12px; 
+            margin: 8px 0; 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: white; 
+            background: #007bff; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        .btn:hover { background: #0056b3; }
+        .btn.correct { background: #28a745; }
+        .btn.wrong { background: #dc3545; }
+        #timer-container {
+            width: 100%;
+            height: 10px;
+            background: gray;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        #timer-bar {
+            height: 100%;
+            background: #ffcc00;
+            width: 100%;
+            transition: width 1s linear;
+        }
+        #ranking-list { text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Bíblico</h1>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="SEU_CÓDIGO_ADSENSE" data-ad-slot="SEU_SLOT" data-ad-format="auto"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        
+        <div id="inicio">
+            <input type="text" id="playerName" placeholder="Digite seu nome">
+            <button class="btn" onclick="iniciarJogo()">Começar Jogo</button>
+        </div>
+        <div id="quiz-container" style="display: none;">
+            <p class="question" id="question"></p>
+            <div id="timer-container"><div id="timer-bar"></div></div>
+            <div id="answers"></div>
+            <p id="score">Pontuação: 0</p>
+        </div>
+        <div id="ranking">
+            <h2>Ranking</h2>
+            <ul id="ranking-list"></ul>
+        </div>
+        <button class="btn" onclick="compartilhar()">Compartilhar</button>
+    </div>
+    <script>
+        let perguntas = [...]; // Insira suas perguntas aqui
+        let perguntaAtual = 0, pontuacao = 0, jogador = "", tempoRestante = 10, timerInterval;
+        function iniciarJogo() { /* Código para iniciar o jogo */ }
+        function carregarPergunta() { /* Código para carregar perguntas */ }
+        function verificarResposta(indice) { /* Código para verificar respostas */ }
+        function atualizarTemporizador() { /* Código para temporizador */ }
+        function finalizarJogo() { /* Código para finalizar o jogo */ }
+        function compartilhar() {
+            let url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+    </script>
+</body>
+</html>
