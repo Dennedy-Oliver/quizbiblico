@@ -79,13 +79,127 @@
         <button class="btn" onclick="compartilhar()">Compartilhar</button>
     </div>
     <script>
-        let perguntas = [...]; // Insira suas perguntas aqui
-        let perguntaAtual = 0, pontuacao = 0, jogador = "", tempoRestante = 10, timerInterval;
-        function iniciarJogo() { /* Código para iniciar o jogo */ }
-        function carregarPergunta() { /* Código para carregar perguntas */ }
-        function verificarResposta(indice) { /* Código para verificar respostas */ }
-        function atualizarTemporizador() { /* Código para temporizador */ }
-        function finalizarJogo() { /* Código para finalizar o jogo */ }
+        let perguntas = [
+           { pergunta: "Quem construiu a arca para sobreviver ao dilúvio?", respostas: ["Moisés", "Noé", "Abraão", "Davi"], correta: 1 },
+            { pergunta: "Qual foi o primeiro milagre de Jesus?", respostas: ["Curar um cego", "Andar sobre as águas", "Transformar água em vinho", "Multiplicar pães e peixes"], correta: 2 },
+            { pergunta: "Quem foi jogado na cova dos leões por orar a Deus?", respostas: ["Elias", "Jonas", "Daniel", "José"], correta: 2 },
+            { pergunta: "Quem foi vendido como escravo por seus próprios irmãos?", respostas: ["Moisés", "José", "Davi", "Samuel"], correta: 1 },
+            { pergunta: "Quem recebeu os Dez Mandamentos no Monte Sinai?", respostas: ["Abraão", "Isaac", "Moisés", "Ezequiel"], correta: 2 },
+            { pergunta: "Quem derrotou o gigante Golias?", respostas: ["Salomão", "Davi", "Sansão", "Gideão"], correta: 1 },
+            { pergunta: "Quem foi engolido por um grande peixe?", respostas: ["Pedro", "Jonas", "Elias", "Paulo"], correta: 1 },
+            { pergunta: "Quantos dias Deus levou para criar o mundo?", respostas: ["3", "5", "6", "7"], correta: 2 },
+            { pergunta: "Quem traiu Jesus por 30 moedas de prata?", respostas: ["Pedro", "Judas", "Tomé", "Filipe"], correta: 1 },
+            { pergunta: "Quem libertou o povo de Israel da escravidão no Egito?", respostas: ["Josué", "Moisés", "Aarão", "Davi"], correta: 1 }
+        ];
+
+        let perguntaAtual = 0;
+        let pontuacao = 0;
+        let jogador = "";
+        let tempoRestante = 10;
+        let timerInterval;
+        
+        function iniciarJogo() {
+            jogador = document.getElementById("playerName").value.trim();
+            if (jogador === "") {
+                alert("Por favor, digite seu nome!");
+                return;
+            }
+
+            document.getElementById("inicio").style.display = "none";
+            document.getElementById("quiz-container").style.display = "block";
+
+            carregarPergunta();
+        }
+
+        function carregarPergunta() {
+            if (perguntaAtual >= perguntas.length) {
+                finalizarJogo();
+                return;
+            }
+
+            const q = perguntas[perguntaAtual];
+            document.getElementById("question").innerText = q.pergunta;
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+
+            q.respostas.forEach((resposta, index) => {
+                const button = document.createElement("button");
+                button.innerText = resposta;
+                button.classList.add("btn");
+                button.onclick = () => verificarResposta(index);
+                answersDiv.appendChild(button);
+            });
+
+            // Reinicia o temporizador
+            tempoRestante = 10;
+            document.getElementById("timer").innerText = `Tempo restante: ${tempoRestante}s`;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(atualizarTemporizador, 1000);
+        }
+
+        function atualizarTemporizador() {
+    tempoRestante--;
+    document.getElementById("timer").innerText = `Tempo restante: ${tempoRestante}s`;
+
+    if (tempoRestante === 0) {
+        clearInterval(timerInterval);
+        let somErro = document.getElementById("somErro");
+        somErro.currentTime = 0; // Reseta o som antes de tocar
+        somErro.play(); // Só toca o som de erro se o tempo acabar
+        proximaPergunta();
+    }
+}
+
+
+function verificarResposta(indice) {
+    clearInterval(timerInterval); // Para o tempo ao responder
+
+    if (indice === perguntas[perguntaAtual].correta) {
+        pontuacao++;
+        // console.log("Acertou!"); // Mensagem para debug (opcional)
+    } else {
+        // console.log("Errou!"); // Mensagem para debug (opcional)
+    }
+
+    // Aguarda 1 segundo antes de avançar para a próxima pergunta
+    setTimeout(proximaPergunta, 1000);
+}
+
+
+        function proximaPergunta() {
+            perguntaAtual++;
+            document.getElementById("score").innerText = `Pontuação: ${pontuacao}`;
+            carregarPergunta();
+        }
+
+        function finalizarJogo() {
+            clearInterval(timerInterval);
+            document.getElementById("quiz-container").innerHTML = `<h2>Fim do Jogo!</h2><p>${jogador}, você fez ${pontuacao} pontos.</p>`;
+            salvarRanking(jogador, pontuacao);
+            exibirRanking();
+        }
+
+        function salvarRanking(nome, pontos) {
+            let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+            ranking.push({ nome, pontos });
+            ranking.sort((a, b) => b.pontos - a.pontos);
+            ranking = ranking.slice(0, 5);
+            localStorage.setItem("ranking", JSON.stringify(ranking));
+        }
+
+        function exibirRanking() {
+            let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+            let rankingList = document.getElementById("ranking-list");
+            rankingList.innerHTML = "";
+
+            ranking.forEach((jogador, index) => {
+                let li = document.createElement("li");
+                li.innerText = `${index + 1}. ${jogador.nome} - ${jogador.pontos} pontos`;
+                rankingList.appendChild(li);
+            });
+        }
+
+        exibirRanking();
         function compartilhar() {
             let url = encodeURIComponent(window.location.href);
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
