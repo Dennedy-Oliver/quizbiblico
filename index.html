@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Bíblico</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <style>
         body { 
             font-family: 'Poppins', sans-serif;
@@ -21,7 +20,10 @@
             border-radius: 15px; 
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); 
         }
-        .question { font-size: 22px; margin-bottom: 20px; }
+        .question { 
+            font-size: 22px; 
+            margin-bottom: 20px;
+        }
         .btn { 
             display: block; 
             width: 100%; 
@@ -36,48 +38,68 @@
             cursor: pointer; 
             transition: 0.3s;
         }
-        .btn:hover { background: #0056b3; }
-        .btn.correct { background: #28a745; }
-        .btn.wrong { background: #dc3545; }
-        #timer-container {
-            width: 100%;
-            height: 10px;
-            background: gray;
-            margin-bottom: 10px;
+        .btn:hover { 
+            background: #0056b3; 
+        }
+        #timer, #score { 
+            font-size: 18px; 
+            font-weight: bold; 
+            margin-top: 10px;
+        }
+        #ranking { 
+            margin-top: 20px;
+            text-align: left;
+        }
+        #ranking h2 { 
+            text-align: center;
+        }
+        #playerName {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
             border-radius: 5px;
-            overflow: hidden;
+            border: none;
         }
-        #timer-bar {
-            height: 100%;
-            background: #ffcc00;
-            width: 100%;
-            transition: width 1s linear;
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        #ranking-list { text-align: left; }
+        button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Quiz Bíblico</h1>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="SEU_CÓDIGO_ADSENSE" data-ad-slot="SEU_SLOT" data-ad-format="auto"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        
         <div id="inicio">
             <input type="text" id="playerName" placeholder="Digite seu nome">
             <button class="btn" onclick="iniciarJogo()">Começar Jogo</button>
         </div>
         <div id="quiz-container" style="display: none;">
             <p class="question" id="question"></p>
-            <div id="timer-container"><div id="timer-bar"></div></div>
             <div id="answers"></div>
+            <p id="timer">Tempo restante: 10s</p>
             <p id="score">Pontuação: 0</p>
         </div>
         <div id="ranking">
             <h2>Ranking</h2>
             <ul id="ranking-list"></ul>
         </div>
-        <button class="btn" onclick="compartilhar()">Compartilhar</button>
+
+        <!-- Sons -->
+        <audio id="somAcerto" src="https://www.myinstants.com/media/sounds/acerto.mp3"></audio>
+        <audio id="somErro" src="https://www.myinstants.com/media/sounds/erro.mp3"></audio>
+
     </div>
+
     <script>
         let perguntas = [
            { pergunta: "Quem construiu a arca para sobreviver ao dilúvio?", respostas: ["Moisés", "Noé", "Abraão", "Davi"], correta: 1 },
@@ -97,7 +119,7 @@
         let jogador = "";
         let tempoRestante = 10;
         let timerInterval;
-        
+
         function iniciarJogo() {
             jogador = document.getElementById("playerName").value.trim();
             if (jogador === "") {
@@ -200,10 +222,6 @@ function verificarResposta(indice) {
         }
 
         exibirRanking();
-        function compartilhar() {
-            let url = encodeURIComponent(window.location.href);
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-        }
     </script>
 </body>
 </html>
